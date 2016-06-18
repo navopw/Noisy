@@ -7,7 +7,8 @@ import java.util.Random;
 public class Noisy {
 
 	public static final Random RANDOM = new Random();
-
+	public static final String VERSION = "0.9";
+	
 	public static void main(String[] args) {
 		LookAndFeel.setSystemLookAndFeel();
 		

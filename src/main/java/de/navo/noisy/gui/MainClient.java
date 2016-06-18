@@ -1,5 +1,6 @@
 package de.navo.noisy.gui;
 
+import de.navo.noisy.Noisy;
 import de.navo.noisy.algorithms.ValueNoise;
 import de.navo.noisy.util.FileChooser;
 import de.navo.noisy.util.ImageScale;
@@ -216,19 +217,19 @@ public class MainClient extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(minimumHeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(minimumHeightPlusButton)
-                                .addComponent(minimumHeightMinusButton)))
+                                .addComponent(minimumHeightMinusButton))
+                            .addComponent(minimumHeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(maximumHeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(maximumHeightPlusButton)
-                                .addComponent(maximumHeightMinusButton)))
+                                .addComponent(maximumHeightMinusButton))
+                            .addComponent(maximumHeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(exportAsImageButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -316,13 +317,12 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_maximumHeightMinusButtonActionPerformed
 
 	public void start() {
-		this.setTitle("Noisy");
+		this.setTitle("Noisy - " + Noisy.VERSION);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setVisible(true);
 
 		this.imagePane.requestFocus();
-		
 		this.recalculate();
 	}
 
