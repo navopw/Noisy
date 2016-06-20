@@ -6,8 +6,8 @@ package de.navo.noisy.util;
  */
 public class Interpolation {
 
-	public static double linearInterpolate(double y1, double y2, double mu) {
-		return (y1 * (1 - mu) + y2 * mu);
+	public static double linearInterpolate(double t, double a, double b) {
+		return a + t * (b - a);
 	}
 
 	public static double cosineInterpolate(double y1, double y2, double mu) {

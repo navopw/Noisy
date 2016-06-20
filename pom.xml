@@ -53,6 +53,13 @@
 			<version>1.16.8</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.github.jbellis</groupId>
+			<artifactId>jamm</artifactId>
+			<version>0.3.1</version>
+			<scope>compile</scope>
+		</dependency>
+
 		<!-- Weichzeichner
 		<dependency>
 			<groupId>com.jhlabs</groupId>

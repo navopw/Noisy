@@ -1,6 +1,6 @@
 package de.navo.noisy.util;
 
-public class NMath {
+public class MathUtil {
 
 	public static double normalize(double value, double min, double max) {
 		return (value - min) / (max - min);
