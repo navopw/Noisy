@@ -18,5 +18,8 @@ A procedural noise-map generator :foggy:
 ### Downloads
 https://github.com/NAAVOO/Noisy/releases
 
+### Special thanks
+* [@Masy98](https://github.com/Masy98) for helping me code the noise-algorithms
+
 ### Bugs or suggestions?
 [*Click here*](https://github.com/NAAVOO/Noisy/issues/new)
