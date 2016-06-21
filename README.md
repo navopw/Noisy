@@ -11,8 +11,8 @@ A procedural noise-map generator :foggy:
 
 ### Supported interpolation:
 * Cosine Interpolation
-* Linear Interpolation (Coming soon...)
-* ...
+* Linear Interpolation
+* (More coming soon...)
 
 ### Downloads
 https://github.com/NAAVOO/Noisy/releases
