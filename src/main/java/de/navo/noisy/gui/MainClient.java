@@ -2,6 +2,7 @@ package de.navo.noisy.gui;
 
 import de.navo.noisy.Noisy;
 import de.navo.noisy.NoisyResources;
+import de.navo.noisy.algorithms.Noise;
 import de.navo.noisy.algorithms.ValueNoise;
 import de.navo.noisy.interpolation.Interpolation;
 import de.navo.noisy.util.FileChooser;
@@ -12,12 +13,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Set;
 import javax.imageio.ImageIO;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.event.ListDataListener;
 
 public class MainClient extends JFrame {
 
@@ -27,6 +26,11 @@ public class MainClient extends JFrame {
 	public MainClient() {
 		this.initComponents();
 		this.calculating = false;
+		
+		Set<String> noises = Noisy.NOISES.keySet();
+		this.noiseAlgorithmCheckbox.setModel(new DefaultComboBoxModel(
+				noises.toArray(new String[noises.size()])
+		));
 		
 		Set<String> interpolations = Noisy.INTERPOLATIONS.keySet();
 		this.interpolationCheckbox.setModel(new DefaultComboBoxModel(
@@ -53,6 +57,8 @@ public class MainClient extends JFrame {
         maximumHeightSpinner = new javax.swing.JSpinner();
         interpolationCheckbox = new javax.swing.JComboBox<>();
         interpolationLabel = new javax.swing.JLabel();
+        interpolationLabel1 = new javax.swing.JLabel();
+        noiseAlgorithmCheckbox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,6 +112,8 @@ public class MainClient extends JFrame {
 
         interpolationLabel.setText("Interpolation:");
 
+        interpolationLabel1.setText("Noise algorithm:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,6 +127,7 @@ public class MainClient extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(recalculateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(exportAsImageButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                    .addComponent(noiseAlgorithmCheckbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(frequencySlider, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                     .addComponent(octavesSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(resolutionSpinner)
@@ -127,6 +136,7 @@ public class MainClient extends JFrame {
                     .addComponent(interpolationCheckbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(interpolationLabel1)
                             .addComponent(interpolationLabel)
                             .addComponent(resolutionLabel)
                             .addComponent(frequencyLabel)
@@ -138,15 +148,19 @@ public class MainClient extends JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(imagePane, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(interpolationLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(noiseAlgorithmCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(interpolationLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(interpolationCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,7 +184,7 @@ public class MainClient extends JFrame {
                                 .addComponent(maximumHeightLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(maximumHeightSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(75, 75, 75)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(exportAsImageButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(recalculateButton)))))
@@ -222,6 +236,7 @@ public class MainClient extends JFrame {
 		int frequency = this.getFrequency();
 		int minHeight = this.getMinimumHeight();
 		int maxHeight = this.getMaximumHeight();
+		Noise noise = Noisy.NOISES.get(this.noiseAlgorithmCheckbox.getSelectedItem().toString());
 		Interpolation interpolation = Noisy.INTERPOLATIONS.get(this.interpolationCheckbox.getSelectedItem().toString());
 
 		if (resolution < 16) {
@@ -258,15 +273,24 @@ public class MainClient extends JFrame {
 		//Calculating...
 		this.drawCalculatingScreen();
 
-		ValueNoise noise = new ValueNoise(resolution, resolution);
-		noise.setOctaves(octaves);
-		noise.setFrequency(frequency);
+		noise.setWidth(resolution);
+		noise.setHeight(resolution);
+
+		if (noise instanceof ValueNoise) {
+			ValueNoise valueNoise = (ValueNoise) noise;
+			valueNoise.setOctaves(octaves);
+			valueNoise.setFrequency(frequency);
+		}
 
 		this.calculating = true;
 		noise.calculate(Noisy.EXECUTOR, interpolation, (noiseMap) -> {
 			if (noiseMap != null) {
 				this.drawNoiseMap(noiseMap);
 			} else {
+				if (this.cachedImage != null) {
+					this.drawImage(cachedImage);
+				}
+				
 				new OptionPaneBuilder().error().message("Your memory can't handle generating a noise-map that big!").show();
 			}
 			this.calculating = false;
@@ -354,11 +378,13 @@ public class MainClient extends JFrame {
     private javax.swing.JScrollPane imagePane;
     private javax.swing.JComboBox<String> interpolationCheckbox;
     private javax.swing.JLabel interpolationLabel;
+    private javax.swing.JLabel interpolationLabel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel maximumHeightLabel;
     private javax.swing.JSpinner maximumHeightSpinner;
     private javax.swing.JLabel minimumHeightLabel;
     private javax.swing.JSpinner minimumHeightSpinner;
+    private javax.swing.JComboBox<String> noiseAlgorithmCheckbox;
     private javax.swing.JLabel octavesLabel;
     private javax.swing.JSlider octavesSlider;
     private javax.swing.JButton recalculateButton;

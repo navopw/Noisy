@@ -3,10 +3,20 @@ package de.navo.noisy.algorithms;
 import de.navo.noisy.interpolation.Interpolation;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
+import lombok.Data;
 
-public interface Noise {
+@Data
+public abstract class Noise {
 
-	public void calculate(ExecutorService executor, Interpolation interpolation, Consumer<float[][]> callback);
-	public String getName();
+	private int width;
+	private int height;
+	
+	public Noise(int width, int height) {
+		this.width = width;
+		this.height = height;
+	}
+	
+	public abstract void calculate(ExecutorService executor, Interpolation interpolation, Consumer<float[][]> callback);
+	public abstract String getName();
 	
 }

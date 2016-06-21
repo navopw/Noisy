@@ -1,5 +1,7 @@
 package de.navo.noisy;
 
+import de.navo.noisy.algorithms.Noise;
+import de.navo.noisy.algorithms.ValueNoise;
 import de.navo.noisy.gui.MainClient;
 import de.navo.noisy.interpolation.CosineInterpolation;
 import de.navo.noisy.interpolation.Interpolation;
@@ -21,14 +23,17 @@ public class Noisy {
 
 	public static final Random RANDOM = new Random();
 	public static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
-	public static final String VERSION = "0.9";
+	public static final String VERSION = "1.0";
 	public static Image ICON;
 	
+	public static final Map<String, Noise> NOISES = new HashMap<>();
 	public static final Map<String, Interpolation> INTERPOLATIONS = new HashMap<>();
 	
 	static {
 		Noisy.addInterpolation(new LinearInterpolation());
 		Noisy.addInterpolation(new CosineInterpolation());
+		
+		Noisy.addNoiseAlgorithm(new ValueNoise(0, 0));
 	}
 	
 	public static void main(String[] args) {
@@ -55,6 +60,10 @@ public class Noisy {
 	
 	private static void addInterpolation(Interpolation interpolation) {
 		INTERPOLATIONS.put(interpolation.getName(), interpolation);
+	}
+	
+	private static void addNoiseAlgorithm(Noise noise) {
+		NOISES.put(noise.getName(), noise);
 	}
 	
 }

@@ -7,21 +7,25 @@ import java.util.function.Consumer;
 import lombok.Data;
 
 @Data
-public class ValueNoise implements Noise {
+public class ValueNoise extends Noise {
 
-	private final int width;
-	private final int height;
+	private int width;
+	private int height;
 
 	private int octaves;
 	private int frequency;
-	private float alpha;
+	private float alpha = 20;
 
 	public ValueNoise(int width, int height) {
-		this.width = width;
-		this.height = height;
-		this.octaves = 8;
-		this.frequency = 2;
-		this.alpha = 20;
+		super(width, height);
+	}
+	
+	public ValueNoise octaves(int octaves) {
+		this.octaves = octaves; return this;
+	}
+	
+	public ValueNoise frequency(int frequency) {
+		this.frequency = frequency; return this;
 	}
 
 	/**
@@ -113,7 +117,7 @@ public class ValueNoise implements Noise {
 
 	@Override
 	public String getName() {
-		return "Value";
+		return "ValueNoise";
 	}
 
 }
