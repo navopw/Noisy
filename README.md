@@ -2,7 +2,8 @@
 A procedural noise-map generator :foggy:
 
 ### Screenshots
-![screenshot](http://i.imgur.com/fl8K8uN.png)
+![calculating](http://i.imgur.com/njSYzeI.png)
+![screenshot](http://i.imgur.com/YXklqus.png)
 
 ### Supported Noise-Algorithms:
 * Value Noise
@@ -16,6 +17,9 @@ A procedural noise-map generator :foggy:
 
 ### Downloads
 https://github.com/NAAVOO/Noisy/releases
+
+### Special thanks
+* [@Masy98](https://github.com/Masy98) for helping me code the noise-algorithms
 
 ### Bugs or suggestions?
 [*Click here*](https://github.com/NAAVOO/Noisy/issues/new)
