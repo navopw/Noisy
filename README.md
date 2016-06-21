@@ -2,8 +2,7 @@
 A procedural noise-map generator :foggy:
 
 ### Screenshots
-![calculating](http://i.imgur.com/njSYzeI.png)
-![screenshot](http://i.imgur.com/YXklqus.png)
+![screenshot](http://i.imgur.com/8SlS8Oi.png)
 
 ### Supported Noise-Algorithms:
 * Value Noise
