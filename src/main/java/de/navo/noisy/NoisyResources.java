@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum NoisyResources {
+	ICON("/icon.png"),
 	CALCULATING_IMAGE("/calculating.png");
 
 	private String path;

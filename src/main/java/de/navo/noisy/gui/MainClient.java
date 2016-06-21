@@ -194,6 +194,7 @@ public class MainClient extends JFrame {
 		this.setTitle("Noisy - " + Noisy.VERSION);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		this.setIconImage(Noisy.ICON);
 		this.setVisible(true);
 
 		this.recalculateButton.doClick();
