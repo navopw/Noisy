@@ -3,16 +3,21 @@ package de.navo.noisy.gui;
 import de.navo.noisy.Noisy;
 import de.navo.noisy.NoisyResources;
 import de.navo.noisy.algorithms.ValueNoise;
+import de.navo.noisy.interpolation.Interpolation;
 import de.navo.noisy.util.FileChooser;
 import de.navo.noisy.util.ImageUtil;
 import de.navo.noisy.util.OptionPaneBuilder;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Set;
 import javax.imageio.ImageIO;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.event.ListDataListener;
 
 public class MainClient extends JFrame {
 
@@ -22,6 +27,11 @@ public class MainClient extends JFrame {
 	public MainClient() {
 		this.initComponents();
 		this.calculating = false;
+		
+		Set<String> interpolations = Noisy.INTERPOLATIONS.keySet();
+		this.interpolationCheckbox.setModel(new DefaultComboBoxModel(
+				interpolations.toArray(new String[interpolations.size()])
+		));
 	}
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -34,13 +44,15 @@ public class MainClient extends JFrame {
         imagePane = new javax.swing.JScrollPane();
         resolutionLabel = new javax.swing.JLabel();
         frequencyLabel = new javax.swing.JLabel();
-        minimumHeightField = new javax.swing.JFormattedTextField();
         minimumHeightLabel = new javax.swing.JLabel();
-        maximumHeightField = new javax.swing.JFormattedTextField();
         maximumHeightLabel = new javax.swing.JLabel();
         exportAsImageButton = new javax.swing.JButton();
         frequencySlider = new javax.swing.JSlider();
-        resolutionField = new javax.swing.JFormattedTextField();
+        resolutionSpinner = new javax.swing.JSpinner();
+        minimumHeightSpinner = new javax.swing.JSpinner();
+        maximumHeightSpinner = new javax.swing.JSpinner();
+        interpolationCheckbox = new javax.swing.JComboBox<>();
+        interpolationLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,15 +80,7 @@ public class MainClient extends JFrame {
 
         frequencyLabel.setText("Frequency:");
 
-        minimumHeightField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        minimumHeightField.setText("0");
-        minimumHeightField.setVerifyInputWhenFocusTarget(false);
-
         minimumHeightLabel.setText("Minimum height:");
-
-        maximumHeightField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        maximumHeightField.setText("255");
-        maximumHeightField.setVerifyInputWhenFocusTarget(false);
 
         maximumHeightLabel.setText("Maximum height:");
 
@@ -94,9 +98,13 @@ public class MainClient extends JFrame {
         frequencySlider.setSnapToTicks(true);
         frequencySlider.setValue(4);
 
-        resolutionField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        resolutionField.setText("256");
-        resolutionField.setVerifyInputWhenFocusTarget(false);
+        resolutionSpinner.setValue(256);
+
+        minimumHeightSpinner.setValue(0);
+
+        maximumHeightSpinner.setValue(255);
+
+        interpolationLabel.setText("Interpolation:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,15 +117,17 @@ public class MainClient extends JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(maximumHeightField)
-                    .addComponent(minimumHeightField)
-                    .addComponent(resolutionField)
+                    .addComponent(recalculateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(exportAsImageButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                     .addComponent(frequencySlider, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                     .addComponent(octavesSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(recalculateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(exportAsImageButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resolutionSpinner)
+                    .addComponent(minimumHeightSpinner)
+                    .addComponent(maximumHeightSpinner)
+                    .addComponent(interpolationCheckbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(interpolationLabel)
                             .addComponent(resolutionLabel)
                             .addComponent(frequencyLabel)
                             .addComponent(minimumHeightLabel)
@@ -131,33 +141,39 @@ public class MainClient extends JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(imagePane, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(resolutionLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resolutionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(octavesLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(octavesSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(frequencyLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(frequencySlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(minimumHeightLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(minimumHeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(maximumHeightLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(maximumHeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(exportAsImageButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(recalculateButton))
-                    .addComponent(jSeparator1))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(imagePane, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(interpolationLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(interpolationCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(resolutionLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(resolutionSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(5, 5, 5)
+                                .addComponent(octavesLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(octavesSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(frequencyLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(frequencySlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(minimumHeightLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(minimumHeightSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(5, 5, 5)
+                                .addComponent(maximumHeightLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(maximumHeightSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(75, 75, 75)
+                                .addComponent(exportAsImageButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(recalculateButton)))))
                 .addContainerGap())
         );
 
@@ -206,16 +222,17 @@ public class MainClient extends JFrame {
 		int frequency = this.getFrequency();
 		int minHeight = this.getMinimumHeight();
 		int maxHeight = this.getMaximumHeight();
+		Interpolation interpolation = Noisy.INTERPOLATIONS.get(this.interpolationCheckbox.getSelectedItem().toString());
 
 		if (resolution < 16) {
 			new OptionPaneBuilder().error().message("The resolution should be bigger or equal 16!").show();
-			this.resolutionField.setText("512");
+			this.resolutionSpinner.setValue(256);
 			return;
 		}
 
 		if (resolution > 2048) {
 			new OptionPaneBuilder().error().message("A high resolution could crash Noisy! (Use 16 - 2048)").show();
-			this.resolutionField.setText("512");
+			this.resolutionSpinner.setValue(256);
 			return;
 		}
 
@@ -246,7 +263,7 @@ public class MainClient extends JFrame {
 		noise.setFrequency(frequency);
 
 		this.calculating = true;
-		noise.calculate(Noisy.EXECUTOR, (noiseMap) -> {
+		noise.calculate(Noisy.EXECUTOR, interpolation, (noiseMap) -> {
 			if (noiseMap != null) {
 				this.drawNoiseMap(noiseMap);
 			} else {
@@ -311,7 +328,7 @@ public class MainClient extends JFrame {
 	}
 
 	public int getResolution() {
-		return Integer.parseInt(this.resolutionField.getText());
+		return (int) this.resolutionSpinner.getValue();
 	}
 
 	public int getOctaves() {
@@ -323,11 +340,11 @@ public class MainClient extends JFrame {
 	}
 
 	public int getMinimumHeight() {
-		return Integer.parseInt(this.minimumHeightField.getText());
+		return (int) this.minimumHeightSpinner.getValue();
 	}
 
 	public int getMaximumHeight() {
-		return Integer.parseInt(this.maximumHeightField.getText());
+		return (int) this.maximumHeightSpinner.getValue();
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -335,15 +352,17 @@ public class MainClient extends JFrame {
     private javax.swing.JLabel frequencyLabel;
     private javax.swing.JSlider frequencySlider;
     private javax.swing.JScrollPane imagePane;
+    private javax.swing.JComboBox<String> interpolationCheckbox;
+    private javax.swing.JLabel interpolationLabel;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JFormattedTextField maximumHeightField;
     private javax.swing.JLabel maximumHeightLabel;
-    private javax.swing.JFormattedTextField minimumHeightField;
+    private javax.swing.JSpinner maximumHeightSpinner;
     private javax.swing.JLabel minimumHeightLabel;
+    private javax.swing.JSpinner minimumHeightSpinner;
     private javax.swing.JLabel octavesLabel;
     private javax.swing.JSlider octavesSlider;
     private javax.swing.JButton recalculateButton;
-    private javax.swing.JFormattedTextField resolutionField;
     private javax.swing.JLabel resolutionLabel;
+    private javax.swing.JSpinner resolutionSpinner;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,6 +1,6 @@
 package de.navo.noisy.algorithms;
 
-import de.navo.noisy.util.Interpolation;
+import de.navo.noisy.interpolation.Interpolation;
 import de.navo.noisy.util.RandomUtil;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
@@ -30,7 +30,7 @@ public class ValueNoise implements Noise {
 	 * @param callback null when out of memory
 	 */
 	@Override
-	public void calculate(ExecutorService executor, Consumer<float[][]> callback) {
+	public void calculate(ExecutorService executor, Interpolation interpolation, Consumer<float[][]> callback) {
 		executor.execute(() -> {
 			try {
 				float[][] noiseMap = new float[this.width][this.height];
@@ -58,18 +58,18 @@ public class ValueNoise implements Noise {
 							int indexX = (int) currentX;
 							int indexY = (int) currentY;
 
-							double weight0 = Interpolation.cosineInterpolate(
+							double weight0 = interpolation.interpolate(
 									discretePoints[indexX][indexY],
 									discretePoints[indexX + 1][indexY],
 									currentX - indexX
 							);
-							double weight1 = Interpolation.cosineInterpolate(
+							double weight1 = interpolation.interpolate(
 									discretePoints[indexX][indexY + 1],
 									discretePoints[indexX + 1][indexY + 1],
 									currentX - indexX
 							);
 
-							double weight = Interpolation.cosineInterpolate(weight0, weight1, currentY - indexY);
+							double weight = interpolation.interpolate(weight0, weight1, currentY - indexY);
 							noiseMap[i][k] += weight;
 						}
 					}
@@ -109,6 +109,11 @@ public class ValueNoise implements Noise {
 				callback.accept(null);
 			}
 		});
+	}
+
+	@Override
+	public String getName() {
+		return "Value";
 	}
 
 }

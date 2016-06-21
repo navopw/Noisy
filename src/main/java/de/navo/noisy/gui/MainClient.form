@@ -28,17 +28,19 @@
               <Component id="imagePane" min="-2" pref="512" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="6" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="maximumHeightField" alignment="0" max="32767" attributes="0"/>
-                  <Component id="minimumHeightField" alignment="0" max="32767" attributes="0"/>
-                  <Component id="resolutionField" alignment="0" max="32767" attributes="0"/>
+                  <Component id="recalculateButton" alignment="0" max="32767" attributes="0"/>
+                  <Component id="exportAsImageButton" alignment="1" pref="208" max="32767" attributes="0"/>
                   <Component id="frequencySlider" alignment="0" pref="208" max="32767" attributes="0"/>
                   <Component id="octavesSlider" alignment="1" max="32767" attributes="0"/>
-                  <Component id="recalculateButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="exportAsImageButton" alignment="1" max="32767" attributes="0"/>
+                  <Component id="resolutionSpinner" alignment="0" max="32767" attributes="0"/>
+                  <Component id="minimumHeightSpinner" alignment="0" max="32767" attributes="0"/>
+                  <Component id="maximumHeightSpinner" alignment="0" max="32767" attributes="0"/>
+                  <Component id="interpolationCheckbox" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="interpolationLabel" min="-2" max="-2" attributes="0"/>
                           <Component id="resolutionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="frequencyLabel" min="-2" max="-2" attributes="0"/>
                           <Component id="minimumHeightLabel" min="-2" max="-2" attributes="0"/>
@@ -57,34 +59,42 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="imagePane" min="-2" pref="512" max="-2" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      <Component id="resolutionLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="resolutionField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="octavesLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="octavesSlider" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="frequencyLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="frequencySlider" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="minimumHeightLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="minimumHeightField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="maximumHeightLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="maximumHeightField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="exportAsImageButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="recalculateButton" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="imagePane" min="-2" pref="512" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="interpolationLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="interpolationCheckbox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="resolutionLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="resolutionSpinner" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                              <Component id="octavesLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="octavesSlider" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="frequencyLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="frequencySlider" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="minimumHeightLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="minimumHeightSpinner" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                              <Component id="maximumHeightLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="maximumHeightSpinner" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                              <Component id="exportAsImageButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="recalculateButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
@@ -139,27 +149,9 @@
         <Property name="text" type="java.lang.String" value="Frequency:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="minimumHeightField">
-      <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format format="#0" subtype="-1" type="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="0"/>
-        <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="minimumHeightLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Minimum height:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JFormattedTextField" name="maximumHeightField">
-      <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format format="#0" subtype="-1" type="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="255"/>
-        <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="maximumHeightLabel">
@@ -185,13 +177,35 @@
         <Property name="value" type="int" value="4"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="resolutionField">
+    <Component class="javax.swing.JSpinner" name="resolutionSpinner">
       <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format format="#0" subtype="-1" type="0"/>
+        <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="256" type="code"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="256"/>
-        <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="minimumHeightSpinner">
+      <Properties>
+        <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="0" type="code"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="maximumHeightSpinner">
+      <Properties>
+        <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="255" type="code"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="interpolationCheckbox">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="interpolationLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Interpolation:"/>
       </Properties>
     </Component>
   </SubComponents>

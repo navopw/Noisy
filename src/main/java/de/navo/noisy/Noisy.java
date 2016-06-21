@@ -1,17 +1,19 @@
 package de.navo.noisy;
 
 import de.navo.noisy.gui.MainClient;
+import de.navo.noisy.interpolation.CosineInterpolation;
+import de.navo.noisy.interpolation.Interpolation;
+import de.navo.noisy.interpolation.LinearInterpolation;
 import java.awt.Image;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -21,6 +23,13 @@ public class Noisy {
 	public static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 	public static final String VERSION = "0.9";
 	public static Image ICON;
+	
+	public static final Map<String, Interpolation> INTERPOLATIONS = new HashMap<>();
+	
+	static {
+		Noisy.addInterpolation(new LinearInterpolation());
+		Noisy.addInterpolation(new CosineInterpolation());
+	}
 	
 	public static void main(String[] args) {
 		try {
@@ -42,6 +51,10 @@ public class Noisy {
 	public static void log(String string) {
 		SimpleDateFormat format = new SimpleDateFormat("[hh:mm:ss]");
 		System.out.println(format.format(new Date()) + " " + string);
+	}
+	
+	private static void addInterpolation(Interpolation interpolation) {
+		INTERPOLATIONS.put(interpolation.getName(), interpolation);
 	}
 	
 }
