@@ -1,16 +1,16 @@
 package de.navo.noisy.algorithms;
 
 import de.navo.noisy.interpolation.Interpolation;
+import de.navo.noisy.util.MathUtil;
 import de.navo.noisy.util.RandomUtil;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper=false)
 @Data
 public class ValueNoise extends Noise {
-
-	private int width;
-	private int height;
 
 	private int octaves;
 	private int frequency;
@@ -19,18 +19,21 @@ public class ValueNoise extends Noise {
 	public ValueNoise(int width, int height) {
 		super(width, height);
 	}
-	
+
 	public ValueNoise octaves(int octaves) {
-		this.octaves = octaves; return this;
+		this.octaves = octaves;
+		return this;
 	}
-	
+
 	public ValueNoise frequency(int frequency) {
-		this.frequency = frequency; return this;
+		this.frequency = frequency;
+		return this;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param executor
+	 * @param interpolation
 	 * @param callback null when out of memory
 	 */
 	@Override
@@ -77,36 +80,12 @@ public class ValueNoise extends Noise {
 							noiseMap[i][k] += weight;
 						}
 					}
+
+					discretePoints = null;
 				}
 
 				//normalize
-				float min = Float.MAX_VALUE;
-				for (int i = 0; i < width; i++) {
-					for (int k = 0; k < height; k++) {
-						if (noiseMap[i][k] < min) {
-							min = noiseMap[i][k];
-						}
-					}
-				}
-				for (int i = 0; i < width; i++) {
-					for (int k = 0; k < height; k++) {
-						noiseMap[i][k] -= min;
-					}
-				}
-
-				float max = Float.MIN_VALUE;
-				for (int i = 0; i < width; i++) {
-					for (int k = 0; k < height; k++) {
-						if (noiseMap[i][k] > max) {
-							max = noiseMap[i][k];
-						}
-					}
-				}
-				for (int i = 0; i < width; i++) {
-					for (int k = 0; k < height; k++) {
-						noiseMap[i][k] /= max;
-					}
-				}
+				noiseMap = MathUtil.normalize(noiseMap, width, height);
 
 				callback.accept(noiseMap);
 			} catch (OutOfMemoryError ex) {

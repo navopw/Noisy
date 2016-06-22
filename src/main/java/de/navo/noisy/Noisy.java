@@ -1,6 +1,7 @@
 package de.navo.noisy;
 
 import de.navo.noisy.algorithms.Noise;
+import de.navo.noisy.algorithms.PerlinNoise;
 import de.navo.noisy.algorithms.ValueNoise;
 import de.navo.noisy.gui.MainClient;
 import de.navo.noisy.interpolation.CosineInterpolation;
@@ -34,6 +35,7 @@ public class Noisy {
 		Noisy.addInterpolation(new CosineInterpolation());
 		
 		Noisy.addNoiseAlgorithm(new ValueNoise(0, 0));
+		Noisy.addNoiseAlgorithm(new PerlinNoise(0, 0));
 	}
 	
 	public static void main(String[] args) {

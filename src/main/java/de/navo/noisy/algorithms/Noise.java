@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public abstract class Noise {
 
-	private int width;
-	private int height;
+	protected int width;
+	protected int height;
 	
 	public Noise(int width, int height) {
 		this.width = width;

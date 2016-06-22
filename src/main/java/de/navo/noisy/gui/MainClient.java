@@ -73,6 +73,7 @@ public class MainClient extends JFrame {
 
         octavesLabel.setText("Octaves:");
 
+        octavesSlider.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         octavesSlider.setMaximum(10);
         octavesSlider.setMinimum(1);
         octavesSlider.setPaintLabels(true);
