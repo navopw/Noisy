@@ -4,7 +4,7 @@ public class LinearInterpolation implements Interpolation {
 
 	@Override
 	public double interpolate(double start, double end, double percent) {
-		return (start + percent * (end - start));
+		return start + percent * (end - start);
 	}
 
 	@Override

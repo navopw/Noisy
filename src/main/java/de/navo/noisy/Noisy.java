@@ -4,6 +4,7 @@ import de.navo.noisy.algorithms.Noise;
 import de.navo.noisy.algorithms.PerlinNoise;
 import de.navo.noisy.algorithms.ValueNoise;
 import de.navo.noisy.gui.MainClient;
+import de.navo.noisy.interpolation.BiCubicInterpolation;
 import de.navo.noisy.interpolation.CosineInterpolation;
 import de.navo.noisy.interpolation.Interpolation;
 import de.navo.noisy.interpolation.LinearInterpolation;
@@ -33,6 +34,7 @@ public class Noisy {
 	static {
 		Noisy.addInterpolation(new LinearInterpolation());
 		Noisy.addInterpolation(new CosineInterpolation());
+		Noisy.addInterpolation(new BiCubicInterpolation());
 		
 		Noisy.addNoiseAlgorithm(new ValueNoise(0, 0));
 		Noisy.addNoiseAlgorithm(new PerlinNoise(0, 0));

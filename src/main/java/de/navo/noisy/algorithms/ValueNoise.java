@@ -1,5 +1,7 @@
 package de.navo.noisy.algorithms;
 
+import de.navo.noisy.Noisy;
+import de.navo.noisy.interpolation.BiCubicInterpolation;
 import de.navo.noisy.interpolation.Interpolation;
 import de.navo.noisy.util.MathUtil;
 import de.navo.noisy.util.RandomUtil;
@@ -8,13 +10,13 @@ import java.util.function.Consumer;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @Data
 public class ValueNoise extends Noise {
 
 	private int octaves;
 	private int frequency;
-	private float alpha = 20;
+	private float alpha = 16;
 
 	public ValueNoise(int width, int height) {
 		super(width, height);
@@ -51,9 +53,9 @@ public class ValueNoise extends Noise {
 						currentAlpha /= 2;
 					}
 
-					float[][] discretePoints = new float[currentFrequencyX + 1][currentFrequencyX + 1];
-					for (int i = 0; i < currentFrequencyX + 1; i++) {
-						for (int k = 0; k < currentFrequencyX + 1; k++) {
+					float[][] discretePoints = new float[currentFrequencyX + 3][currentFrequencyX + 3];
+					for (int i = 0; i < currentFrequencyX + 3; i++) {
+						for (int k = 0; k < currentFrequencyX + 3; k++) {
 							discretePoints[i][k] = RandomUtil.nextFloat(-currentAlpha, currentAlpha);
 						}
 					}
@@ -65,19 +67,59 @@ public class ValueNoise extends Noise {
 							int indexX = (int) currentX;
 							int indexY = (int) currentY;
 
-							double weight0 = interpolation.interpolate(
-									discretePoints[indexX][indexY],
-									discretePoints[indexX + 1][indexY],
-									currentX - indexX
-							);
-							double weight1 = interpolation.interpolate(
-									discretePoints[indexX][indexY + 1],
-									discretePoints[indexX + 1][indexY + 1],
-									currentX - indexX
-							);
+							switch (interpolation.getName()) {
+								case "BiCubic":
+									BiCubicInterpolation biCubic = (BiCubicInterpolation) interpolation;
+									double preWeight = biCubic.interpolateCubic(
+											discretePoints[indexX][indexY],
+											discretePoints[indexX + 1][indexY],
+											discretePoints[indexX + 2][indexY],
+											discretePoints[indexX + 3][indexY],
+											currentX - indexX
+									);
+									double startWeight = biCubic.interpolateCubic(
+											discretePoints[indexX][indexY + 1],
+											discretePoints[indexX + 1][indexY + 1],
+											discretePoints[indexX + 2][indexY + 1],
+											discretePoints[indexX + 3][indexY + 1],
+											currentX - indexX
+									);
+									double endWeight = biCubic.interpolateCubic(
+											discretePoints[indexX][indexY + 2],
+											discretePoints[indexX + 1][indexY + 2],
+											discretePoints[indexX + 2][indexY + 2],
+											discretePoints[indexX + 3][indexY + 2],
+											currentX - indexX
+									);
+									double postWeight = biCubic.interpolateCubic(
+											discretePoints[indexX][indexY + 3],
+											discretePoints[indexX + 1][indexY + 3],
+											discretePoints[indexX + 2][indexY + 3],
+											discretePoints[indexX + 3][indexY + 3],
+											currentX - indexX
+									);
+									
+									double finalWeight = biCubic.interpolateCubic(preWeight, startWeight, endWeight, postWeight, currentY - indexY);
+									Noisy.log("finalWeight: " + finalWeight);
+									noiseMap[i][k] *= finalWeight;
+									break;
+								default:
+									double weight0 = interpolation.interpolate(
+											discretePoints[indexX][indexY],
+											discretePoints[indexX + 1][indexY],
+											currentX - indexX
+									);
+									double weight1 = interpolation.interpolate(
+											discretePoints[indexX][indexY + 1],
+											discretePoints[indexX + 1][indexY + 1],
+											currentX - indexX
+									);
 
-							double weight = interpolation.interpolate(weight0, weight1, currentY - indexY);
-							noiseMap[i][k] += weight;
+									double weight = interpolation.interpolate(weight0, weight1, currentY - indexY);
+									Noisy.log("finalWeight: " + weight);
+									noiseMap[i][k] += weight;
+									break;
+							}
 						}
 					}
 
