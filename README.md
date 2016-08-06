@@ -6,19 +6,16 @@ A procedural noise-map generator :foggy:
 
 ### Supported Noise-Algorithms:
 * Value Noise
-* Perlin Noise (Coming soon...)
-* Simplex Noise (Coming soon...)
 
 ### Supported interpolation:
 * Cosine Interpolation
 * Linear Interpolation
-* (More coming soon...)
 
 ### Downloads
-https://github.com/NAAVOO/Noisy/releases
+https://github.com/navopw/Noisy/releases
 
 ### Special thanks
 * [@Masy98](https://github.com/Masy98) for helping me code the noise-algorithms
 
 ### Bugs or suggestions?
-[*Click here*](https://github.com/NAAVOO/Noisy/issues/new)
+[*Click here*](https://github.com/navopw/Noisy/issues/new)
