@@ -309,8 +309,6 @@ public class MainClient extends JFrame {
 		for (int widthIndex = 0; widthIndex < width; widthIndex++) {
 			for (int heightIndex = 0; heightIndex < height; heightIndex++) {
 				float value = noiseMap[widthIndex][heightIndex];
-				Noisy.log("Noise: [" + widthIndex + "] [" + heightIndex + "] : " + value);
-				Noisy.log("GrayScale: [" + widthIndex + "] [" + heightIndex + "] : " + (int) (((maxHeight - minHeight) * value) + minHeight));
 				image.setRGB(widthIndex, heightIndex, this.getGreyScale(value, minHeight, maxHeight));
 			}
 		}

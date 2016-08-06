@@ -34,10 +34,10 @@ public class Noisy {
 	static {
 		Noisy.addInterpolation(new LinearInterpolation());
 		Noisy.addInterpolation(new CosineInterpolation());
-		Noisy.addInterpolation(new BiCubicInterpolation());
+		//Noisy.addInterpolation(new BiCubicInterpolation());
 		
 		Noisy.addNoiseAlgorithm(new ValueNoise(0, 0));
-		Noisy.addNoiseAlgorithm(new PerlinNoise(0, 0));
+		//Noisy.addNoiseAlgorithm(new PerlinNoise(0, 0));
 	}
 	
 	public static void main(String[] args) {

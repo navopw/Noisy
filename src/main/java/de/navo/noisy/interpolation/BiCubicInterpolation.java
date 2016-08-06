@@ -16,7 +16,7 @@ public class BiCubicInterpolation implements Interpolation {
 
 	@Override
 	public String getName() {
-		return "BiCubic";
+		return "BiCubic (not working)";
 	}
 	
 }

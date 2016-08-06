@@ -39,7 +39,6 @@ public class PerlinNoise extends Noise {
 
 				for (int widthIndex = 0; widthIndex < this.width; widthIndex++) {
 					for (int heightIndex = 0; heightIndex < this.height; heightIndex++) {
-						Noisy.log("[" + widthIndex + "][" + heightIndex + "] = " + noise(widthIndex, heightIndex, 99, interpolation));
 						noiseMap[widthIndex][heightIndex] = (float) noise(widthIndex, heightIndex, 99, interpolation);
 					}
 				}

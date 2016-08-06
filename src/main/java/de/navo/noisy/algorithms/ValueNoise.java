@@ -100,7 +100,6 @@ public class ValueNoise extends Noise {
 									);
 									
 									double finalWeight = biCubic.interpolateCubic(preWeight, startWeight, endWeight, postWeight, currentY - indexY);
-									Noisy.log("finalWeight: " + finalWeight);
 									noiseMap[i][k] *= finalWeight;
 									break;
 								default:
@@ -116,7 +115,6 @@ public class ValueNoise extends Noise {
 									);
 
 									double weight = interpolation.interpolate(weight0, weight1, currentY - indexY);
-									Noisy.log("finalWeight: " + weight);
 									noiseMap[i][k] += weight;
 									break;
 							}
