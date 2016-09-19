@@ -15,7 +15,7 @@ A procedural noise-map generator :foggy:
 https://github.com/navopw/Noisy/releases
 
 ### Special thanks
-* [@Masy98](https://github.com/Masy98) for helping me code the noise-algorithms
+* [@Masy](https://github.com/Masy) for helping me code the noise-algorithms
 
 ### Bugs or suggestions?
 [*Click here*](https://github.com/navopw/Noisy/issues/new)
