@@ -1,6 +1,8 @@
 # Noisy
 A procedural noise-map generator :foggy:
 
+This project is not being worked on anymore. (It still works in its current state)
+
 ### Screenshots
 ![screenshot](http://i.imgur.com/8SlS8Oi.png)
 
@@ -8,8 +10,8 @@ A procedural noise-map generator :foggy:
 * Value Noise
 
 ### Supported interpolation:
-* Cosine Interpolation
 * Linear Interpolation
+* Cosine Interpolation
 
 ### Downloads
 https://github.com/navopw/Noisy/releases
