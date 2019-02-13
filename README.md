@@ -1,7 +1,7 @@
 # Noisy
 A procedural noise-map generator :foggy:
 
-This project is not being worked on anymore. (It still works in its current state)
+**This project is not being worked on anymore. (It still works in its current state)**
 
 ### Screenshots
 ![screenshot](http://i.imgur.com/8SlS8Oi.png)
